@@ -1,0 +1,5 @@
+{
+  "name": "Wikimedia Commons Infinite Explorer",
+  "description": "Search for images on Wikimedia Commons and browse them with an infinite scroll interface.",
+  "requestFramePermissions": []
+}

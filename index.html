@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Commons Explorer | AI-Powered Visual Discovery</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/infinite-scroll@4.0.1/dist/infinite-scroll.pkgd.min.js"></script>
+    <script type="importmap">
+    {
+      "imports": {
+        "@google/genai": "https://aistudiocdn.com/@google/genai@^1.17.0"
+      }
+    }
+    </script>
+</head>
+<body>
+    <div class="app-container">
+        <header class="main-header">
+            <div class="logo">
+                <span class="logo-icon">🖼️</span>
+                <h1>Commons Explorer</h1>
+            </div>
+            <form id="searchForm" class="search-bar" role="search">
+                <input type="search" id="searchInput" placeholder="Search the world's heritage..." aria-label="Search images" required>
+                <button type="submit" id="searchButton">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                </button>
+            </form>
+        </header>
+        
+        <main class="content-area">
+            <div id="initial-loader" class="loader-overlay">
+                <div class="spinner"></div>
+                <p>Curating your gallery...</p>
+            </div>
+            <div id="results" class="results-grid"></div>
+            <div id="no-results" class="no-results" style="display: none;">
+                <p>No treasures found. Try a different search term.</p>
+            </div>
+        </main>
+        
+        <div class="page-load-status">
+            <div class="loader-ellips">
+              <span class="loader-ellips__dot"></span>
+              <span class="loader-ellips__dot"></span>
+              <span class="loader-ellips__dot"></span>
+              <span class="loader-ellips__dot"></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lightbox Modal -->
+    <div id="lightbox" class="lightbox-modal" role="dialog" aria-modal="true">
+        <div class="lightbox-backdrop"></div>
+        <div class="lightbox-wrapper">
+            <button id="lightbox-close" class="close-btn" aria-label="Close">&times;</button>
+            
+            <div class="lightbox-layout">
+                <div class="image-pane">
+                    <img id="lightbox-img" src="" alt="View">
+                    <div class="image-actions">
+                        <a id="download-btn" href="#" download class="btn-secondary">Download High-Res</a>
+                    </div>
+                </div>
+                
+                <div class="info-pane">
+                    <div class="info-header">
+                        <h2 id="lightbox-title"></h2>
+                        <p id="lightbox-author"></p>
+                    </div>
+
+                    <div class="ai-tabs">
+                        <button class="tab-btn active" data-tab="story">Story</button>
+                        <button class="tab-btn" data-tab="analyze">Analyze</button>
+                        <button class="tab-btn" data-tab="chat">Chat</button>
+                    </div>
+
+                    <div class="tab-content">
+                        <!-- Story Section -->
+                        <div id="tab-story" class="tab-pane active">
+                            <div class="genre-selector">
+                                <button class="genre-btn" data-genre="Whimsical">✨ Whimsical</button>
+                                <button class="genre-btn" data-genre="Historical">📜 Historical</button>
+                                <button class="genre-btn" data-genre="Noir">🕵️ Noir</button>
+                            </div>
+                            <div id="story-display" class="ai-text-output">
+                                <p class="placeholder">Select a style to generate a story...</p>
+                            </div>
+                        </div>
+
+                        <!-- Analysis Section -->
+                        <div id="tab-analyze" class="tab-pane">
+                            <button id="analyze-btn" class="btn-primary">Detect Details</button>
+                            <div id="analysis-display" class="ai-text-output">
+                                <p class="placeholder">Click to identify objects and context...</p>
+                            </div>
+                        </div>
+
+                        <!-- Chat Section -->
+                        <div id="tab-chat" class="tab-pane">
+                            <div id="chat-history" class="chat-history">
+                                <p class="system-msg">Ask Gemini anything about this image.</p>
+                            </div>
+                            <div class="chat-input-area">
+                                <input type="text" id="chat-input" placeholder="Type a question...">
+                                <button id="send-chat-btn">Send</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="ai-loader" class="ai-loading-spinner" style="display: none;">
+                        <div class="spinner-small"></div>
+                        <span>Gemini is thinking...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="index.js"></script>
+</body>
+</html>
